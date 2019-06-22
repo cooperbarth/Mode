@@ -105,11 +105,11 @@ app.post('/experts', (req, res) => {
                                     }
                                 }
                             }
+                            console.log(users);
                             
                             if (++seenChannels === channels.length) { //this is the last channel
                                 clearTimeout(timeout);
                                 let keys = Object.keys(users);
-                                console.log(keys);
                                 keys.sort((k1, k2) => {
                                     return users[k1] < users[k2];
                                 });
@@ -118,7 +118,6 @@ app.post('/experts', (req, res) => {
 
                                 let responseUsers = [];
                                 let userResponsesSeen = 0;
-                                console.log(keys);
                                 for (let user of keys) {
                                     const usersUrl = `https://slack.com/api/users.info?token=${process.env.OAUTH_TOKEN}&user=${user}`;
                                     request(usersUrl, (err, _, body) => {
