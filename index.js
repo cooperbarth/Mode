@@ -121,6 +121,7 @@ app.post('/experts', (req, res) => {
                                     const usersUrl = `https://slack.com/api/users.info?token=${process.env.OAUTH_TOKEN}&user=${user}`;
                                     request(usersUrl, (err, _, body) => {
                                         if (!err) { //if this channel broke, we'll just discount the channel
+                                            console.log("here?")
                                             body = JSON.parse(body);
                                             if (body.ok) {
                                                 const responseUser = body.user;
