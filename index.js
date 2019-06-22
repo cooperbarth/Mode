@@ -16,7 +16,7 @@ app.listen(serverPort);
 console.log(`Server running on port ${serverPort}.`)
 
 const TIMEOUT = 2500;
-const MAX_EXPERTS = 4;
+const MAX_RETURN_OBJECTS = 4;
 
 const channelsUrl = `https://slack.com/api/conversations.list?token=${process.env.OAUTH_TOKEN}&limit=500&exclude_archived=true&types=public_channel`;
 const messagesUrl = (channelId) => {return `https://slack.com/api/channels.history?token=${process.env.OAUTH_TOKEN}&channel=${channelId}&count=500`;}
@@ -24,6 +24,7 @@ const usersUrl = (userId) => {return `https://slack.com/api/users.info?token=${p
 
 app.post('/find', (req, res) => {
     const phrase = req.body.text;
+    //get all channels, then get all messages in each
     request(channelsUrl, (err, _, body) => {
         if (err) {
             res.send(channelResponse(false, err, phrase, []));
@@ -43,11 +44,15 @@ app.post('/find', (req, res) => {
                     if (!err) { //if this channel broke, we'll just discount the channel
                         body = JSON.parse(body);
                         if (body.ok) {
+                            //add channels that have >=1 messages with mention to orderedChannels
                             const messages = body.messages;
                             let count = 0
                             for (let message of messages) {
-                                if (message.text.toLowerCase().includes(phrase.toLowerCase())) {
-                                    count++;
+                                const text = message.text.toLowerCase();
+                                const lowerPhrase = phrase.toLowerCase();
+                                if (text.includes(lowerPhrase)) {
+                                    const regex = new RegExp(lowerPhrase, "g");
+                                    count += (text.match(regex) || []).length;
                                 }
                             }
                             if (count !== 0) {
@@ -75,6 +80,7 @@ app.post('/find', (req, res) => {
 
 app.post('/experts', (req, res) => {
     const phrase = req.body.text;
+    //get all channels, then get all messages in each
     request(channelsUrl, (err, _, body) => {
         if (err) {
             res.send(userResponse(false, err, phrase, []));
@@ -90,7 +96,7 @@ app.post('/experts', (req, res) => {
 
             let seenChannels = 0;
             let users = {}; //maps username to # of messages
-            for (let channel of channels) {
+            for (let channel of channels) { //get all messages from each channel and modify JSON
                 request(messagesUrl(channel.id), (err, _, body) => {
                     if (!err) {
                         body = JSON.parse(body);
@@ -107,8 +113,9 @@ app.post('/experts', (req, res) => {
                                 }
                             }
                         
-                            if (++seenChannels === channels.length) { //this is the last channel
-                                clearTimeout(timeout);
+                            if (++seenChannels === channels.length) { //we've seen all messages from all channels
+                                clearTimeout(timeout); //shouldn't worry about timeout anymore; we have our user list
+                                //build list of MAX_RETURN_OBJECTS users with max # of mentions
                                 let keys = Object.keys(users);
                                 if (keys.length === 0) {
                                     res.send(userResponse(true, "", phrase, []));
@@ -116,14 +123,15 @@ app.post('/experts', (req, res) => {
                                 keys.sort((k1, k2) => {
                                     return users[k1] < users[k2];
                                 });
-                                const MAX_USERS = Math.min(keys.length, MAX_EXPERTS);
-                                keys = keys.slice(0, MAX_USERS);
+                                keys = keys.slice(0, Math.min(keys.length, MAX_RETURN_OBJECTS));
 
+                                //we only have the IDs of each user; now we need their names
                                 let responseUsers = [];
                                 let userResponsesSeen = 0;
+                                clearTimeout(timeout); 
                                 for (let user of keys) {
                                     request(usersUrl(user), (err, _, body) => {
-                                        if (!err) { //if this channel broke, we'll just discount the channel
+                                        if (!err) {
                                             body = JSON.parse(body);
                                             if (body.ok) {
                                                 const responseUser = body.user;
@@ -132,14 +140,14 @@ app.post('/experts', (req, res) => {
                                                     name: responseUser.name,
                                                     count: users[user]
                                                 });
-
                                                 if (++userResponsesSeen === keys.length) {
-                                                    clearTimeout(timeout);
                                                     res.send(userResponse(true, "", phrase, responseUsers));
                                                 }
                                             } else {
                                                 res.send(userResponse(false, "Error retrieving users.", phrase, []));
                                             }
+                                        } else {
+                                            res.send(userResponse(false, "Error retrieving users.", phrase, []));
                                         }
                                     });
                                 }
