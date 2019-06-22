@@ -36,7 +36,6 @@ app.post('/search', (req, res) => {
             }));
         }
         body = JSON.parse(body);
-        console.log(body);
         if (!body.ok) {
             res.send(message({
                 ok: false,
@@ -63,6 +62,7 @@ app.post('/search', (req, res) => {
                 request(messagesUrl, (err, _, body) => {
                     if (!err) { //if this channel broke, we'll just discount the channel
                         body = JSON.parse(body);
+                        console.log(body)
                         if (body.ok) { //if not ok, we'll just discount the channel
                             const messages = body.messages;
                             let count = 0
