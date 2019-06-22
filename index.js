@@ -104,10 +104,10 @@ app.post('/experts', (req, res) => {
                                     } else {
                                         users.user = 1;
                                     }
+                                    console.log(users.user)
                                 }
                             }
-                            
-                            console.log(users);
+                        
                             if (++seenChannels === channels.length) { //this is the last channel
                                 clearTimeout(timeout);
                                 let keys = Object.keys(users);
