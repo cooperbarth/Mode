@@ -88,7 +88,7 @@ app.post('/experts', (req, res) => {
             }, 3000);
 
             for (let channel of channels) { //get the messages for each channel
-                const messagesUrl = `https://slack.com/api/channels.history?token=${process.env.OAUTH_TOKEN}&channel=${channel.id}&count=500`;
+                const messagesUrl = `https://slack.com/api/channels.history?token=${process.env.OAUTH_TOKEN}&channel=${channel.id}&count=1000`;
                 request(messagesUrl, (err, _, body) => {
                     if (!err) { //if this channel broke, we'll just discount the channel
                         body = JSON.parse(body);
