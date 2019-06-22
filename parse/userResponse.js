@@ -4,9 +4,11 @@ const userResponse = (ok, err, phrase, users) => {
     } else if (users.length === 0) {
         return `Sorry! I couldn't find any mentions of "${phrase}".`;
     } else {
-        console.log(users);
+        let returnUsers = users.sort((u1, u2) => {
+            return u1.count < u2.count;
+        })
         let returnString = `*Users that frequently mention "${phrase}":*\n`;
-        for (let user of users.sort((k1, k2) => {return users[k1] < users[k2];})) {
+        for (let user of returnUsers) {
             const count = user.count;
             returnString += `*<@${user.id}|${user.name}>:* ${count} mention${(count === 1)? '' : 's'}\n`;
         }
