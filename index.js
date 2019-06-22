@@ -128,6 +128,7 @@ app.post('/experts', (req, res) => {
                                     return users[k1] < users[k2];
                                 });
                                 keys = keys.slice(0, Math.min(keys.length, MAX_RETURN_OBJECTS));
+                                console.log(keys);
 
                                 //we only have the IDs of each user; now we need their names
                                 let responseUsers = [];
