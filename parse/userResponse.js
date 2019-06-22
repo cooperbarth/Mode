@@ -1,6 +1,6 @@
 const userResponse = (ok, err, phrase, users) => {
     console.log(ok, err, phrase, users)
-    if (ok) {
+    if (!ok) {
         return err;
     } else {
         let returnString = `*Users that frequently mention "${phrase}":*\n`;
