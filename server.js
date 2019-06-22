@@ -14,14 +14,8 @@ const serverPort = process.env.PORT || 8081
 app.listen(serverPort);
 console.log(`Server running on port ${serverPort}.`)
 
-app.get('/', (req, res) => {
-    res.send("App Running");
-})
-
-//input is channel name
 app.post('/search', (req, res) => {
     const phrase = req.body.text;
-    console.log(process.env.OAUTH_TOKEN)
 
     const channelsUrl = `https://slack.com/api/conversations.list?token=${process.env.OAUTH_TOKEN}&limit=100&exclude_archived=true&types=public_channel`
     request(channelsUrl, (err, _, body) => {
