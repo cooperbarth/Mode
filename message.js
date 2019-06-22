@@ -1,6 +1,6 @@
 const responseMarkdown = (channelJSON) => {
     if (!channelJSON.ok) {
-        return `Something went wrong (${err}). Try again?`;
+        return `Something went wrong (${channelJSON.err}). Try again?`;
     }
     channels = channelJSON.channels;
     if (channels.length === 0) {
