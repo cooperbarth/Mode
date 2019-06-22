@@ -7,7 +7,7 @@ const responseMarkdown = (messageJSON) => {
     if (channels.length === 0) {
         return `No channels found for query '${phrase}'.`;
     } else {
-        let returnString = `__Mentions__ of _"${phrase}"_:`;
+        let returnString = `Channels that mention _"${phrase}"_:\n`;
         for (let i = 0; i < Math.min(channels.length, 4); i++) {
             const channel = channels[i];
             returnString += `*<#${channel.id}|${channel.name}>:* ${channel.count} mentions.\n`;
