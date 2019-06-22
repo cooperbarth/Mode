@@ -118,6 +118,7 @@ app.post('/experts', (req, res) => {
 
                                 let responseUsers = [];
                                 let userResponsesSeen = 0;
+                                console.log(user);
                                 for (let user of keys) {
                                     const usersUrl = `https://slack.com/api/users.info?token=${process.env.OAUTH_TOKEN}&user=${user}`;
                                     request(usersUrl, (err, _, body) => {
