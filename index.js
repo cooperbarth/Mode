@@ -3,8 +3,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const request = require('request');
 
-const channelResponse = require('./channelResponse');
-const userResponse = require('./userResponse');
+const channelResponse = require('./parse/channelResponse');
+const userResponse = require('./parse/userResponse');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -14,6 +14,9 @@ app.use(bodyParser.urlencoded({
 const serverPort = process.env.PORT || 8081
 app.listen(serverPort);
 console.log(`Server running on port ${serverPort}.`)
+
+const TIMEOUT = 2500;
+const MAX_EXPERTS = 4;
 
 app.post('/search', (req, res) => {
     const phrase = req.body.text;
@@ -31,7 +34,7 @@ app.post('/search', (req, res) => {
             let seenChannels = 0;
             const timeout = setTimeout(() => { //send whatever we have after 3 seconds
                 res.send(channelResponse(false, "Request timed out.", phrase, orderedChannels));
-            }, 3000);
+            }, TIMEOUT);
             for (let channel of channels) { //get the messages for each channel
                 const messagesUrl = `https://slack.com/api/channels.history?token=${process.env.OAUTH_TOKEN}&channel=${channel.id}&count=500`;
                 request(messagesUrl, (err, _, body) => {
@@ -73,20 +76,19 @@ app.post('/experts', (req, res) => {
     const channelsUrl = `https://slack.com/api/conversations.list?token=${process.env.OAUTH_TOKEN}&limit=500&exclude_archived=true&types=public_channel`
     request(channelsUrl, (err, _, body) => {
         if (err) {
-            res.send(userResponse(false, err, phrase, {}));
+            res.send(userResponse(false, err, phrase, []));
         }
         body = JSON.parse(body);
         if (!body.ok) {
-            res.send(userResponse(false, body.error, phrase, {}));
+            res.send(userResponse(false, body.error, phrase, []));
         } else {
             const channels = body.channels;
+            const timeout = setTimeout(() => { //send whatever we have after 3 seconds
+                res.send(userResponse(false, "Request timed out.", phrase, []));
+            }, TIMEOUT);
+
             let seenChannels = 0;
             let users = {}; //maps username to # of messages
-            
-            const timeout = setTimeout(() => { //send whatever we have after 3 seconds
-                res.send(userResponse(false, "Request timed out.", phrase, users));
-            }, 3000);
-
             for (let channel of channels) { //get the messages for each channel
                 const messagesUrl = `https://slack.com/api/channels.history?token=${process.env.OAUTH_TOKEN}&channel=${channel.id}&count=1000`;
                 request(messagesUrl, (err, _, body) => {
@@ -110,11 +112,32 @@ app.post('/experts', (req, res) => {
                                 keys.sort((k1, k2) => {
                                     return users[k1] < users[k2];
                                 });
-                                const MAX_USERS = 4;
+                                const MAX_USERS = Math.min(keys.length, MAX_EXPERTS);
                                 keys = keys.slice(0, MAX_USERS);
                                 users = keys.reduce((key, val) => (key[val] = users[val], key), {});
 
-                                res.send(userResponse(true, "", phrase, users));
+                                let responseUsers = [];
+                                let userResponsesSeen = 0;
+                                for (let user of users) {
+                                    const usersUrl = `https://slack.com/api/users.info?token=${process.env.OAUTH_TOKEN}&user=${user}`;
+                                    request(messagesUrl, (err, _, body) => {
+                                        if (!err) { //if this channel broke, we'll just discount the channel
+                                            body = JSON.parse(body);
+                                            if (body.ok) {
+                                                const responseUser = body.user;
+                                                responseUsers.push({
+                                                    name: responseUser.name,
+                                                    count: users[user]
+                                                });
+
+                                                if (++userResponsesSeen === users.length) {
+                                                    clearTimeout(timeout);
+                                                    res.send(userResponse(true, "", phrase, responseUsers));
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
                             }
                         }
                     }
