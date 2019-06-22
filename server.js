@@ -81,7 +81,7 @@ app.post('/search', (req, res) => {
                             if (seenChannels === channels.length) { //this is the last channel
                                 clearTimeout(timeout);
                                 orderedChannels.sort((c1, c2) => {
-                                    return c1.count > c2.count;
+                                    return c1.count < c2.count;
                                 })
                                 res.send({
                                     ok: true,
