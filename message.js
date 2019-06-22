@@ -5,7 +5,7 @@ const responseMarkdown = (messageJSON) => {
     const channels = messageJSON.channels;
     const phrase = messageJSON.phrase;
     if (channels.length === 0) {
-        return `Sorry! I couldn't find any mentions of '${phrase}'.`;
+        return `Sorry! I couldn't find any mentions of "${phrase}".`;
     } else {
         let returnString = `*Channels that mention "${phrase}":*${(messageJSON.finished)? '' : ' (Not all channels were searched due to a timeout.)'}\n`;
         for (let i = 0; i < Math.min(channels.length, 4); i++) {
