@@ -109,9 +109,11 @@ app.post('/experts', (req, res) => {
                         
                             if (++seenChannels === channels.length) { //this is the last channel
                                 clearTimeout(timeout);
+                                console.log(users);
                                 if (users === {}) {
                                     res.send(userResponse(true, "", phrase, []));
                                 }
+                                console.log("???")
                                 let keys = Object.keys(users);
                                 keys.sort((k1, k2) => {
                                     return users[k1] < users[k2];
