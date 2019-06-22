@@ -10,7 +10,7 @@ const responseMarkdown = (messageJSON) => {
         let returnString = `*Channels that mention _"${phrase}"_:*\n`;
         for (let i = 0; i < Math.min(channels.length, 4); i++) {
             const channel = channels[i];
-            returnString += `*<#${channel.id}|${channel.name}>:* ${channel.count} mentions.\n`;
+            returnString += `*<#${channel.id}|${channel.name}>:* ${channel.count} mentions\n`;
         }
         return returnString;
     }
