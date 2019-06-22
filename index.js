@@ -104,7 +104,7 @@ app.post('/experts', (req, res) => {
                                     } else {
                                         users.user = 1;
                                     }
-                                    console.log(users.user)
+                                    console.log(Object.keys(users))
                                 }
                             }
                         
