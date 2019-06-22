@@ -7,7 +7,6 @@ const userResponse = (ok, err, phrase, users) => {
             const count = user.count;
             returnString += `*<@${user.id}|${user.name}>:* ${count} mention${(count === 1)? '' : 's'}\n`;
         }
-        console.log("???")
         return returnString;
     }
 }
