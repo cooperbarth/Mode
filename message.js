@@ -9,7 +9,7 @@ const responseMarkdown = (channelJSON) => {
         let returnString = ``;
         for (let i = 0; i < Math.min(channels.length, 4); i++) {
             const channel = channels[i];
-            returnString += `<#${channel.id}|${channel.name}>: ${channel.count} mentions.\n`;
+            returnString += `*<#${channel.id}|${channel.name}>:* ${channel.count} mentions.\n`;
         }
         return returnString;
     }
