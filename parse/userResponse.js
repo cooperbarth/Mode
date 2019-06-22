@@ -1,4 +1,5 @@
 const userResponse = (ok, err, phrase, users) => {
+    console.log(ok, err, phrase, users)
     if (ok) {
         return err;
     } else {
