@@ -14,8 +14,6 @@ const serverPort = process.env.PORT || 8081
 app.listen(serverPort);
 console.log(`Server running on port ${serverPort}.`)
 
-const BOT_TOKEN = "xoxb-672400831732-673115226533-VgIxyPNy93vGOt2ksEyJzCFP";
-
 app.get('/', (req, res) => {
     res.send("App Running");
 })
@@ -24,7 +22,7 @@ app.get('/', (req, res) => {
 app.post('/search', (req, res) => {
     const phrase = req.body.text;
 
-    const channelsUrl = `https://slack.com/api/conversations.list?token=${BOT_TOKEN}&limit=100&exclude_archived=true&types=public_channel`
+    const channelsUrl = `https://slack.com/api/conversations.list?token=${process.env.BOT_OAUTH_TOKEN}&limit=100&exclude_archived=true&types=public_channel`
     request(channelsUrl, (err, _, body) => {
         if (err) {
             res.send(message({
@@ -58,11 +56,10 @@ app.post('/search', (req, res) => {
                 }));
             }, 5000);
             for (let channel of channels) { //get the messages for each channel
-                const messagesUrl = `https://slack.com/api/channels.history?token=${BOT_TOKEN}&channel=${channel.id}&count=1000`;
+                const messagesUrl = `https://slack.com/api/channels.history?token=${process.env.OAUTH_TOKEN}&channel=${channel.id}&count=1000`;
                 request(messagesUrl, (err, _, body) => {
                     if (!err) { //if this channel broke, we'll just discount the channel
                         body = JSON.parse(body);
-                        console.log(body)
                         if (body.ok) { //if not ok, we'll just discount the channel
                             const messages = body.messages;
                             let count = 0
