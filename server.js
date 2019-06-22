@@ -12,7 +12,7 @@ const serverPort = process.env.PORT || 8081
 app.listen(serverPort);
 console.log(`Server running on port ${serverPort}.`)
 
-const BOT_TOKEN = "xoxp-672400831732-675015665718-661524963970-b895f037f5b37d455a6b0f12d6d7977b";
+const BOT_TOKEN = "xoxp-672400831732-675015665718-661675280547-0876a9b6c3b6111a4117517ba5f5c390";
 
 app.get('/', (req, res) => {
     res.send("App Running");
