@@ -8,7 +8,7 @@ const responseMarkdown = (channelJSON) => {
     } else {
         let returnString = ``;
         for (let channel of channels) {
-            returnString += `${channel.name}: ${channel.count} mentions.`;
+            returnString += `${channel.name}: ${channel.count} mentions.\n`;
         }
         return returnString;
     }
