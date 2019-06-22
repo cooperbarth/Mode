@@ -18,7 +18,7 @@ console.log(`Server running on port ${serverPort}.`)
 const TIMEOUT = 2500;
 const MAX_EXPERTS = 4;
 
-app.post('/search', (req, res) => {
+app.post('/find', (req, res) => {
     const phrase = req.body.text;
     const channelsUrl = `https://slack.com/api/conversations.list?token=${process.env.OAUTH_TOKEN}&limit=500&exclude_archived=true&types=public_channel`
     request(channelsUrl, (err, _, body) => {
