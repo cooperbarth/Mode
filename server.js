@@ -23,7 +23,6 @@ app.get('/', (req, res) => {
 //input is channel name
 app.post('/search', (req, res) => {
     const phrase = req.body.text;
-    console.log(req);
 
     const channelsUrl = `https://slack.com/api/conversations.list?token=${BOT_TOKEN}&limit=100&exclude_archived=true&types=public_channel`
     request(channelsUrl, (err, _, body) => {
@@ -37,6 +36,7 @@ app.post('/search', (req, res) => {
             }));
         }
         body = JSON.parse(body);
+        console.log(body);
         if (!body.ok) {
             res.send(message({
                 ok: false,
