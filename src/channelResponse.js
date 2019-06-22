@@ -1,11 +1,9 @@
 const MAX_CHANNELS = 5;
 
-const responseMarkdown = (ok, err, phrase, data) => {
+const responseMarkdown = (ok, err, phrase, channels) => {
     if (!ok) {
         return `Something went wrong (${err}). Try again?`;
     }
-    console.log(data);
-    const channels = data.channels;
     if (channels.length === 0) {
         return `Sorry! I couldn't find any mentions of "${phrase}".`;
     } else {
