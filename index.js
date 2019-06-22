@@ -133,6 +133,7 @@ app.post('/experts', (req, res) => {
 
                                                 if (++userResponsesSeen === keys.length) {
                                                     clearTimeout(timeout);
+                                                    console.log("here?");
                                                     res.send(userResponse(true, "", phrase, responseUsers));
                                                 }
                                             } else {
