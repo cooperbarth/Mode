@@ -7,7 +7,7 @@ const responseMarkdown = (channelJSON) => {
         return `No channels found for query '${channelJSON.phrase}'.`;
     } else {
         let returnString = ``;
-        for (channel of channels) {
+        for (let channel of channels) {
             returnString += `${channel.name}: ${channel.count} mentions.`;
         }
         return returnString;

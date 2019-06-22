@@ -66,7 +66,7 @@ app.post('/search', (req, res) => {
                         if (body.ok) { //if not ok, we'll just discount the channel
                             const messages = body.messages;
                             let count = 0
-                            for (message of messages) {
+                            for (let message of messages) {
                                 if (message.text.toLowerCase().includes(phrase.toLowerCase())) {
                                     count++;
                                 }
