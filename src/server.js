@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const request = require('request');
 
-const message = require('./message.js/index.js');
+const message = require('./message.js');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
