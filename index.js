@@ -107,6 +107,7 @@ app.post('/experts', (req, res) => {
                                 }
                             }
                             
+                            console.log(users);
                             if (++seenChannels === channels.length) { //this is the last channel
                                 clearTimeout(timeout);
                                 let keys = Object.keys(users);
@@ -119,12 +120,10 @@ app.post('/experts', (req, res) => {
                                 let responseUsers = [];
                                 let userResponsesSeen = 0;
                                 for (let user of keys) {
-                                    console.log(user);
                                     const usersUrl = `https://slack.com/api/users.info?token=${process.env.OAUTH_TOKEN}&user=${user}`;
                                     request(usersUrl, (err, _, body) => {
                                         if (!err) { //if this channel broke, we'll just discount the channel
                                             body = JSON.parse(body);
-                                            console.log(body);
                                             if (body.ok) {
                                                 const responseUser = body.user;
                                                 responseUsers.push({
