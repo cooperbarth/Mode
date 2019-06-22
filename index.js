@@ -96,7 +96,6 @@ app.post('/experts', (req, res) => {
                         console.log(body);
                         body = JSON.parse(body);
                         if (body.ok) { //if not ok, we'll just discount the channel
-                            const messages = body.messages;
                             for (let message of messages) {
                                 if (message.text.toLowerCase().includes(phrase.toLowerCase())) {
                                     const user = message.user;
@@ -107,6 +106,7 @@ app.post('/experts', (req, res) => {
                                     }
                                 }
                             }
+                            console.log(users);
                         
                             if (++seenChannels === channels.length) { //this is the last channel
                                 clearTimeout(timeout);
