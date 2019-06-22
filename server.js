@@ -38,7 +38,6 @@ app.post('/search', (req, res) => {
         }
         body = JSON.parse(body);
         if (!body.ok) {
-            console.log(body);
             res.send(message({
                 ok: false,
                 err: body.error,
