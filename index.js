@@ -138,7 +138,6 @@ app.post('/experts', (req, res) => {
                                                     res.send(userResponse(true, "", phrase, responseUsers));
                                                 }
                                             } else {
-                                                console.log("???")
                                                 res.send(userResponse(false, "Error retrieving users.", phrase, []));
                                             }
                                         }
