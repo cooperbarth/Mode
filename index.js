@@ -109,6 +109,7 @@ app.post('/experts', (req, res) => {
                             if (++seenChannels === channels.length) { //this is the last channel
                                 clearTimeout(timeout);
                                 let keys = Object.keys(users);
+                                console.log(keys);
                                 keys.sort((k1, k2) => {
                                     return users[k1] < users[k2];
                                 });
@@ -129,12 +130,13 @@ app.post('/experts', (req, res) => {
                                                     name: responseUser.name,
                                                     count: users[user]
                                                 });
-                                                console.log(responseUsers);
 
                                                 if (++userResponsesSeen === keys.length) {
                                                     clearTimeout(timeout);
                                                     res.send(userResponse(true, "", phrase, responseUsers));
                                                 }
+                                            } else {
+                                                res.send(userResponse(false, "Error retrieving users.", phrase, []));
                                             }
                                         }
                                     });
