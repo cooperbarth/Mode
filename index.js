@@ -103,12 +103,16 @@ app.post('/experts', (req, res) => {
                         if (body.ok) {
                             const messages = body.messages;
                             for (let message of messages) {
-                                if (message.text.toLowerCase().includes(phrase.toLowerCase())) {
+                                const text = message.text.toLowerCase();
+                                const lowerPhrase = phrase.toLowerCase();
+                                if (text.includes(lowerPhrase)) {
+                                    const regex = new RegExp(lowerPhrase, "g");
+                                    const matchCount = (text.match(regex) || []).length;
                                     const user = message.user;
                                     if (user in users) {
-                                        users[user] = users[user] + 1;
+                                        users[user] = users[user] + matchCount;
                                     } else {
-                                        users[user] = 1;
+                                        users[user] = matchCount;
                                     }
                                 }
                             }
