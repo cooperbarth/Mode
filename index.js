@@ -93,9 +93,9 @@ app.post('/experts', (req, res) => {
                 const messagesUrl = `https://slack.com/api/channels.history?token=${process.env.OAUTH_TOKEN}&channel=${channel.id}&count=1000`;
                 request(messagesUrl, (err, _, body) => {
                     if (!err) { //if this channel broke, we'll just discount the channel
-                        console.log(body);
                         body = JSON.parse(body);
                         if (body.ok) { //if not ok, we'll just discount the channel
+                            const messages = body.messages;
                             for (let message of messages) {
                                 if (message.text.toLowerCase().includes(phrase.toLowerCase())) {
                                     const user = message.user;
