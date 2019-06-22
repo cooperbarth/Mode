@@ -4,6 +4,7 @@ const responseMarkdown = (ok, err, phrase, data) => {
     if (!ok) {
         return `Something went wrong (${err}). Try again?`;
     }
+    console.log(data);
     const channels = data.channels;
     if (channels.length === 0) {
         return `Sorry! I couldn't find any mentions of "${phrase}".`;

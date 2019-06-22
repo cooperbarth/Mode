@@ -58,7 +58,6 @@ app.post('/search', (req, res) => {
                                 orderedChannels.sort((c1, c2) => {
                                     return c1.count < c2.count;
                                 })
-                                console.log(orderedChannels);
                                 res.send(channelResponse(true, "", phrase, orderedChannels));
                             }
                         }
