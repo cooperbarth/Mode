@@ -7,7 +7,7 @@ const responseMarkdown = (messageJSON) => {
     if (channels.length === 0) {
         return `No channels found for query '${phrase}'.`;
     } else {
-        let returnString = `*Channels that mention "${phrase}":*\n`;
+        let returnString = `*Channels that mention "${phrase}":*${(messageJSON.finished)? '' : ' (Not all channels were searched due to a timeout.)'}\n`;
         for (let i = 0; i < Math.min(channels.length, 4); i++) {
             const channel = channels[i];
             const count = channel.count;
