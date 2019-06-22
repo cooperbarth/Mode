@@ -99,11 +99,10 @@ app.post('/experts', (req, res) => {
                             for (let message of messages) {
                                 if (message.text.toLowerCase().includes(phrase.toLowerCase())) {
                                     const user = message.user;
-                                    console.log(message, user)
                                     if (user in users) {
-                                        users.user = users.user + 1;
+                                        users[user] = users[user] + 1;
                                     } else {
-                                        users.user = 1;
+                                        users[user] = 1;
                                     }
                                 }
                             }
