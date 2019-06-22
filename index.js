@@ -126,6 +126,7 @@ app.post('/experts', (req, res) => {
                                             if (body.ok) {
                                                 const responseUser = body.user;
                                                 responseUsers.push({
+                                                    id: user,
                                                     name: responseUser.name,
                                                     count: users[user]
                                                 });
