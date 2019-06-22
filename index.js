@@ -97,7 +97,6 @@ app.post('/experts', (req, res) => {
                         if (body.ok) { //if not ok, we'll just discount the channel
                             const messages = body.messages;
                             for (let message of messages) {
-                                console.log(message);
                                 if (message.text.toLowerCase().includes(phrase.toLowerCase())) {
                                     const user = message.user;
                                     if (user in users) {
@@ -133,9 +132,11 @@ app.post('/experts', (req, res) => {
 
                                                 if (++userResponsesSeen === keys.length) {
                                                     clearTimeout(timeout);
+                                                    console.log("here")
                                                     res.send(userResponse(true, "", phrase, responseUsers));
                                                 }
                                             } else {
+                                                console.log("there")
                                                 res.send(userResponse(false, "Error retrieving users.", phrase, []));
                                             }
                                         }
