@@ -114,13 +114,12 @@ app.post('/experts', (req, res) => {
                                 });
                                 const MAX_USERS = Math.min(keys.length, MAX_EXPERTS);
                                 keys = keys.slice(0, MAX_USERS);
-                                users = keys.reduce((key, val) => (key[val] = users[val], key), {});
 
                                 let responseUsers = [];
                                 let userResponsesSeen = 0;
-                                for (let user of users) {
+                                for (let user of keys) {
                                     const usersUrl = `https://slack.com/api/users.info?token=${process.env.OAUTH_TOKEN}&user=${user}`;
-                                    request(messagesUrl, (err, _, body) => {
+                                    request(usersUrl, (err, _, body) => {
                                         if (!err) { //if this channel broke, we'll just discount the channel
                                             body = JSON.parse(body);
                                             if (body.ok) {
@@ -130,7 +129,7 @@ app.post('/experts', (req, res) => {
                                                     count: users[user]
                                                 });
 
-                                                if (++userResponsesSeen === users.length) {
+                                                if (++userResponsesSeen === keys.length) {
                                                     clearTimeout(timeout);
                                                     res.send(userResponse(true, "", phrase, responseUsers));
                                                 }
