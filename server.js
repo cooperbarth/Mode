@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 app.post('/search', (req, res) => {
     const phrase = req.body.text;
 
-    const channelsUrl = `https://slack.com/api/conversations.list?token=${process.env.BOT_OAUTH_TOKEN}&limit=100&exclude_archived=true&types=public_channel`
+    const channelsUrl = `https://slack.com/api/conversations.list?token=${process.env.OAUTH_TOKEN}&limit=100&exclude_archived=true&types=public_channel`
     request(channelsUrl, (err, _, body) => {
         if (err) {
             res.send(message({
