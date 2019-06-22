@@ -123,6 +123,7 @@ app.post('/experts', (req, res) => {
                                     request(usersUrl, (err, _, body) => {
                                         if (!err) { //if this channel broke, we'll just discount the channel
                                             body = JSON.parse(body);
+                                            console.log(body);
                                             if (body.ok) {
                                                 const responseUser = body.user;
                                                 responseUsers.push({
@@ -132,11 +133,9 @@ app.post('/experts', (req, res) => {
 
                                                 if (++userResponsesSeen === keys.length) {
                                                     clearTimeout(timeout);
-                                                    console.log("here")
                                                     res.send(userResponse(true, "", phrase, responseUsers));
                                                 }
                                             } else {
-                                                console.log("there")
                                                 res.send(userResponse(false, "Error retrieving users.", phrase, []));
                                             }
                                         }
