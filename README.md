@@ -4,7 +4,7 @@
 
 Coming into a large Slack workspace, it can be near-impossible to find the channels or people to reach out to in order to gain relevant info. This app attempts to alleviate this through frequency analysis: in this system, mentions map directly to relevancy.
 
-In Slack, a user can type `/find &lt;query&gt;` to search for the public channels where `query` is most frequently mentioned. Similarly, one can use `/experts &lt;query&gt;` to find the users who most frequently mention `query`.
+In Slack, a user can type `/find <query>` to search for the public channels where `query` is most frequently mentioned. Similarly, one can use `/experts <query>` to find the users who most frequently mention `query`.
 
 When a query is made, the bot will return the top few channels or users and the mention count of each.
 
@@ -17,4 +17,4 @@ When a query is made, the bot will return the top few channels or users and the 
 5. Set the `OAUTH_TOKEN` Environment Variable in your Heroku app (or wherever you choose to run your server) to the Access Token generated in Step 3.
 6. Run your server.
 
-*Developed by Cooper Barth for use @[Braintree](https://www.braintreepayments.com).*
+*Developed by Cooper Barth for use @ [Braintree](https://www.braintreepayments.com).*
