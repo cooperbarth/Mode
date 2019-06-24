@@ -3,8 +3,10 @@ const app = express();
 const bodyParser = require("body-parser");
 const request = require("request");
 
-const channelResponse = require("./parse/channelResponse");
-const userResponse = require("./parse/userResponse");
+const channelResponse = require("./src/parse/channelResponse");
+const userResponse = require("./src/parse/userResponse");
+const profaneResponse = require("./src/parse/profaneResponse");
+const isProfane = require("./lib/filter");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -40,6 +42,11 @@ app.get("/", (req, res) => {
 
 app.post("/find", (req, res) => {
     const phrase = req.body.text;
+    for (let word of string.split(" ")) { //TODO: update this to find substrings and also just be able to call isProfane on a full phrase
+        if (isProfane(word)) {
+            res.send(profaneResponse(word, phrase));
+        }
+    }
     //get all channels, then get all messages in each
     request(channelsUrl, (err, _, body) => {
         if (err) {
@@ -96,6 +103,11 @@ app.post("/find", (req, res) => {
 
 app.post("/experts", (req, res) => {
     const phrase = req.body.text;
+    for (let word of string.split(" ")) {
+        if (isProfane(word)) {
+            res.send(profaneResponse(word, phrase));
+        }
+    }
     //get all channels, then get all messages in each
     request(channelsUrl, (err, _, body) => {
         if (err) {
