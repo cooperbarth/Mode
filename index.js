@@ -1,10 +1,10 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const bodyParser = require('body-parser');
-const request = require('request');
+const bodyParser = require("body-parser");
+const request = require("request");
 
-const channelResponse = require('./parse/channelResponse');
-const userResponse = require('./parse/userResponse');
+const channelResponse = require("./parse/channelResponse");
+const userResponse = require("./parse/userResponse");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -13,7 +13,8 @@ app.use(bodyParser.urlencoded({
 
 const serverPort = process.env.PORT || 8081
 app.listen(serverPort);
-console.log(`Server running on port ${serverPort}.`)
+const aliveMessage = `Server running on port ${serverPort}.`;
+console.log(aliveMessage);
 
 const TIMEOUT = 2500;
 const MAX_RETURN_OBJECTS = 4;
@@ -22,7 +23,11 @@ const channelsUrl = `https://slack.com/api/conversations.list?token=${process.en
 const messagesUrl = (channelId) => {return `https://slack.com/api/channels.history?token=${process.env.OAUTH_TOKEN}&channel=${channelId}&count=500`;}
 const usersUrl = (userId) => {return `https://slack.com/api/users.info?token=${process.env.OAUTH_TOKEN}&user=${userId}`;}
 
-app.post('/find', (req, res) => {
+app.get("/", (req, res) => {
+    res.send(aliveMessage);
+})
+
+app.post("/find", (req, res) => {
     const phrase = req.body.text;
     //get all channels, then get all messages in each
     request(channelsUrl, (err, _, body) => {
@@ -78,7 +83,7 @@ app.post('/find', (req, res) => {
     });
 });
 
-app.post('/experts', (req, res) => {
+app.post("/experts", (req, res) => {
     const phrase = req.body.text;
     //get all channels, then get all messages in each
     request(channelsUrl, (err, _, body) => {
