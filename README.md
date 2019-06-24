@@ -16,5 +16,3 @@ When a query is made, the bot will return the top few channels or users and the 
 4. Add the following Permission Scopes: *channels:history*, *channels:read*, *users:read*, *incoming-webhook*.
 5. Set the `OAUTH_TOKEN` Environment Variable in your Heroku app (or wherever you choose to run your server) to the Access Token generated in Step 3.
 6. Run your server.
-
-*Developed by Cooper Barth for use @ [Braintree](https://www.braintreepayments.com).*
