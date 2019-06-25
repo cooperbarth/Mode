@@ -122,7 +122,7 @@ app.post("/experts", (req, res) => {
 
             let seenChannels = 0;
             let users = {}; //maps username to # of messages
-            for (let channel of channels) { //get all messages from each channel and modify JSON
+            for (let channel of channels) { //get all messages from each channel
                 request(messagesUrl(channel.id), (err, _, body) => {
                     if (!err) {
                         body = JSON.parse(body);
@@ -135,11 +135,7 @@ app.post("/experts", (req, res) => {
                                     const regex = new RegExp(lowerPhrase, "g");
                                     const matchCount = (text.match(regex) || []).length;
                                     const user = message.user;
-                                    if (user in users) {
-                                        users[user] = users[user] + matchCount;
-                                    } else {
-                                        users[user] = matchCount;
-                                    }
+                                    users[user] = matchCount + (user in users)? users[user] : 0;
                                 }
                             }
                         
