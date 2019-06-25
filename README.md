@@ -14,5 +14,5 @@ When a query is made, the bot will return the top few channels or users and the 
 2. Set Slash Commands to call your routes (e.g. `/find`, `/experts`).
 3. Generate an OAuth Access Token.
 4. Add the following Permission Scopes: *channels:history*, *channels:read*, *users:read*, *incoming-webhook*.
-5. Set the `OAUTH_TOKEN` Environment Variable in your Heroku app (or wherever you choose to run your server) to the Access Token generated in Step 3.
+5. Set the appropriate Environment Variables in your Heroku app (or wherever you choose to run your server) to the Access Token generated in Step 3.
 6. Run your server.
