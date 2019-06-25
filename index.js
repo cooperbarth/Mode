@@ -22,9 +22,9 @@ const TIMEOUT = 2500;
 const MAX_RETURN_OBJECTS = 4;
 
 const apiUrl = "https://mode-bot.herokuapp.com/";
-const channelsUrl = `https://slack.com/api/conversations.list?token=${process.env.OAUTH_TOKEN}&limit=500&exclude_archived=true&types=public_channel`;
-const messagesUrl = (channelId) => {return `https://slack.com/api/channels.history?token=${process.env.OAUTH_TOKEN}&channel=${channelId}&count=500`;}
-const usersUrl = (userId) => {return `https://slack.com/api/users.info?token=${process.env.OAUTH_TOKEN}&user=${userId}`;}
+const channelsUrl = `https://slack.com/api/conversations.list?token=${process.env.OAUTH_TOKEN_TEST}&limit=500&exclude_archived=true&types=public_channel`;
+const messagesUrl = (channelId) => {return `https://slack.com/api/channels.history?token=${process.env.OAUTH_TOKEN_TEST}&channel=${channelId}&count=500`;}
+const usersUrl = (userId) => {return `https://slack.com/api/users.info?token=${process.env.OAUTH_TOKEN_TEST}&user=${userId}`;}
 
 //keep awake by pinging every 29 mins
 const PING_INTERVAL = 1740000;
