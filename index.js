@@ -45,23 +45,25 @@ app.post("/find", (req, res) => {
     const profaneWord = isProfane(phrase);
     if (profaneWord) {
         res.send(profaneResponse(profaneWord, phrase));
-        console.log("hit")
         return;
     }
     //get all channels, then get all messages in each
     request(channelsUrl, (err, _, body) => {
         if (err) {
             res.send(channelResponse(false, err, phrase, []));
+            return;
         }
         body = JSON.parse(body);
         if (!body.ok) {
             res.send(channelResponse(false, body.error, phrase, []));
+            return;
         } else {
             const channels = body.channels;
             let orderedChannels = [];
             let seenChannels = 0;
             const timeout = setTimeout(() => { //send whatever we have after 2.5 seconds
                 res.send(channelResponse(false, "Request timed out.", phrase, orderedChannels));
+                return;
             }, TIMEOUT);
             for (let channel of channels) { //get the messages for each channel
                 request(messagesUrl(channel.id), (err, _, body) => {
@@ -93,6 +95,7 @@ app.post("/find", (req, res) => {
                                     return c1.count < c2.count;
                                 })
                                 res.send(channelResponse(true, "", phrase, orderedChannels));
+                                return;
                             }
                         }
                     }
@@ -107,19 +110,23 @@ app.post("/experts", (req, res) => {
     const profaneWord = isProfane(phrase);
     if (profaneWord) {
         res.send(profaneResponse(profaneWord, phrase));
+        return;
     }
     //get all channels, then get all messages in each
     request(channelsUrl, (err, _, body) => {
         if (err) {
             res.send(userResponse(false, err, phrase, []));
+            return;
         }
         body = JSON.parse(body);
         if (!body.ok) {
             res.send(userResponse(false, body.error, phrase, []));
+            return;
         } else {
             const channels = body.channels;
             const timeout = setTimeout(() => {
                 res.send(userResponse(false, "Request timed out.", phrase, []));
+                return;
             }, TIMEOUT);
 
             let seenChannels = 0;
@@ -147,6 +154,7 @@ app.post("/experts", (req, res) => {
                                 let keys = Object.keys(users);
                                 if (keys.length === 0) {
                                     res.send(userResponse(true, "", phrase, []));
+                                    return;
                                 }
                                 keys.sort((k1, k2) => {
                                     return users[k1] < users[k2];
@@ -170,12 +178,15 @@ app.post("/experts", (req, res) => {
                                                 });
                                                 if (++userResponsesSeen === keys.length) {
                                                     res.send(userResponse(true, "", phrase, responseUsers));
+                                                    return;
                                                 }
                                             } else {
                                                 res.send(userResponse(false, "Error retrieving users.", phrase, []));
+                                                return;
                                             }
                                         } else {
                                             res.send(userResponse(false, "Error retrieving users.", phrase, []));
+                                            return;
                                         }
                                     });
                                 }
