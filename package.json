@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "bad-words": "^3.0.2",
+    "badwords": "^1.0.0",
     "badwords-list": "^1.0.0",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
