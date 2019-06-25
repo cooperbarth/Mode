@@ -46,6 +46,7 @@ app.post("/find", (req, res) => {
     if (profaneWord) {
         res.send(profaneResponse(profaneWord, phrase));
     }
+    console.log("did you get to here?")
     //get all channels, then get all messages in each
     request(channelsUrl, (err, _, body) => {
         if (err) {
