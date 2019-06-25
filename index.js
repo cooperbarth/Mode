@@ -42,10 +42,9 @@ app.get("/", (req, res) => {
 
 app.post("/find", (req, res) => {
     const phrase = req.body.text;
-    for (let word of string.split(" ")) { //TODO: update this to find substrings and also just be able to call isProfane on a full phrase
-        if (isProfane(word)) {
-            res.send(profaneResponse(word, phrase));
-        }
+    const profaneWord = isProfane(phrase);
+    if (profaneWord) {
+        res.send(profaneResponse(profaneWord, phrase));
     }
     //get all channels, then get all messages in each
     request(channelsUrl, (err, _, body) => {
@@ -103,10 +102,9 @@ app.post("/find", (req, res) => {
 
 app.post("/experts", (req, res) => {
     const phrase = req.body.text;
-    for (let word of string.split(" ")) {
-        if (isProfane(word)) {
-            res.send(profaneResponse(word, phrase));
-        }
+    const profaneWord = isProfane(phrase);
+    if (profaneWord) {
+        res.send(profaneResponse(profaneWord, phrase));
     }
     //get all channels, then get all messages in each
     request(channelsUrl, (err, _, body) => {
