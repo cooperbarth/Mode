@@ -45,8 +45,9 @@ app.post("/find", (req, res) => {
     const profaneWord = isProfane(phrase);
     if (profaneWord) {
         res.send(profaneResponse(profaneWord, phrase));
+        console.log("hit")
+        return;
     }
-    console.log("did you get to here?")
     //get all channels, then get all messages in each
     request(channelsUrl, (err, _, body) => {
         if (err) {
