@@ -3,10 +3,10 @@ const app = express();
 const bodyParser = require("body-parser");
 const request = require("request");
 
-const channelResponse = require("./src/parse/channelResponse");
-const userResponse = require("./src/parse/userResponse");
-const profaneResponse = require("./src/parse/profaneResponse");
-const isProfane = require("./lib/filter");
+const channelResponse = require("./src/response/channelResponse");
+const userResponse = require("./src/response/userResponse");
+const profaneResponse = require("./src/response/profaneResponse");
+const isProfane = require("./src/filter");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
