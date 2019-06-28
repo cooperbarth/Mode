@@ -24,7 +24,7 @@ const aliveMessage = `Server running on port ${serverPort}.`;
 console.log(aliveMessage);
 
 const TIMEOUT = 2500;
-const MAX_RETURN_OBJECTS = 4;
+const MAX_RETURN_OBJECTS = 5;
 
 const channelsUrl = `https://slack.com/api/conversations.list?token=${oAuthToken}&limit=500&exclude_archived=true&types=public_channel`;
 const messagesUrl = (channelId) => {return `https://slack.com/api/channels.history?token=${oAuthToken}&channel=${channelId}&count=500`;}
