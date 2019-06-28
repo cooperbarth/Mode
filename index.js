@@ -16,6 +16,7 @@ app.use(bodyParser.urlencoded({
 const config = require("./config/config")[process.env.NODE_ENV];
 const apiUrl = config.host;
 const oAuthToken = config.oauth;
+const isBt = (process.env.NODE_ENV.trim() === "bt")
 
 const serverPort = process.env.PORT || 8081
 app.listen(serverPort);
