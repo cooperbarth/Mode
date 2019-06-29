@@ -8,6 +8,7 @@ const responseMarkdown = (ok, err, phrase, channels) => {
         return `Sorry! I couldn't find any mentions of "${phrase}".`;
     } else {
         let returnString = '';
+        print(channels)
 
         const supportServiceChannels = channels.filter(channel => {
             const channelName = channel.name.toLowerCase();

@@ -10,7 +10,5 @@ module.exports = {
     "bt": {
         "host": "NEW HEROKU DYNO",
         "oauth": process.env.OAUTH_TOKEN_BT
-    }
-    */
-
+    }*/
 }
